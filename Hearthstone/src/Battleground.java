@@ -9,6 +9,7 @@ public class Battleground
 {
 	Board topBoard;
 	Board lowerBoard;
+	Board[] boards = new Board[2];
 	private int first;
     Scanner input = new Scanner(System.in);
     private int intInput = 0;
@@ -57,17 +58,18 @@ public class Battleground
     public void fillBoards(int[] cardAmts) {
     	// Initialize top board
         topBoard = new Board("Top", cardAmts[0]);
+        boards[0] = topBoard;
         
         // Initialize lower board
         lowerBoard = new Board("Lower", cardAmts[1]);
+        boards[1] = lowerBoard;
     }
     
     /**
      * Repeats the battle for a number of rounds
      * @param rounds how many times the game repeats
      */
-    public int[] playGame(int[] cardAmts) {
-    	this.fillBoards(cardAmts);
+    public int[] playGame() {
     	int[] results = {0, 0, 0};
 		do { // run game while both boards have cards on them
             first = (int) (Math.random());
@@ -110,14 +112,24 @@ public class Battleground
         }
     	return results;
     }
+    
+    public Board[] getBoards() {
+    	return boards;
+    }
 
     /**
      * Driver for basic game
      */
     public static void main(String[] args) {
         Battleground battleground = new Battleground();
-        int[] cardAmts = {7, 7};
-        int[] results = battleground.playGame(cardAmts);
+        int[] cardAmts = battleground.askCardAmt();
+        battleground.fillBoards(cardAmts);
+        
+        // Get and display the boards
+        Board[] boards = battleground.getBoards();
+        boards[0].displayBoard(); boards[1].displayBoard();
+        
+        int[] results = battleground.playGame();
         
         if (results[0] == 0) {
         	System.out.println("It's a draw!");
