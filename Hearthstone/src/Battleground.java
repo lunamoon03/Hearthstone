@@ -7,10 +7,10 @@ import java.util.Scanner;
  */
 public class Battleground
 {
-	Board topBoard;
-	Board lowerBoard;
-	Board[] boards = new Board[2];
-	private int first;
+    Board topBoard;
+    Board lowerBoard;
+    Board[] boards = new Board[2];
+    private int first;
     Scanner input = new Scanner(System.in);
     private int intInput = 0;
     private boolean askAgain = true;
@@ -69,9 +69,9 @@ public class Battleground
      * Repeats the battle for a number of rounds
      * @param rounds how many times the game repeats
      */
-    public int[] playGame() {
-    	int[] results = {0, 0, 0};
-		do { // run game while both boards have cards on them
+    public int playGame(boolean showDialogue) {
+    	int result = 3;
+	do { // run game while both boards have cards on them
             first = (int) (Math.random());
             
             if (first == 0) { // top board goes first
@@ -79,10 +79,10 @@ public class Battleground
                 for (int j = 0; j < topBoard.getLen(); j++) {
                 	// Check that the card is alive
                     if (topBoard.getDeck()[j].isAlive()) {
-                        topBoard.randomAttack(j, lowerBoard);
+                        topBoard.randomAttack(j, lowerBoard, showDialogue);
                     }
                     if (lowerBoard.getDeck()[j].isAlive()) {
-                        lowerBoard.randomAttack(j, topBoard);
+                        lowerBoard.randomAttack(j, topBoard, showDialogue);
                     }
                 }
             }
@@ -90,27 +90,25 @@ public class Battleground
                 for (int j = 0; j < topBoard.getLen(); j++) {
                 	// Check that the card is alive
                     if (lowerBoard.getDeck()[j].isAlive()) {
-                        lowerBoard.randomAttack(j, topBoard);
+                        lowerBoard.randomAttack(j, topBoard, showDialogue);
                     }
                     if (topBoard.getDeck()[j].isAlive()) {
-                        topBoard.randomAttack(j, lowerBoard);
+                        topBoard.randomAttack(j, lowerBoard, showDialogue);
                     }
                 }
             }
         } while ((topBoard.checkDeck() > 0) && (lowerBoard.checkDeck() > 0));
 		
     	if ((topBoard.checkDeck() == 0) && (lowerBoard.checkDeck() == 0)) {
-    		results[0]++;
+    		return 0;
         }
         else if (topBoard.checkDeck() == 0) {
-        	System.out.println("\nYou won!");
-        	results[1]++;
+        	return 1;
         }
         else if (lowerBoard.checkDeck() == 0) {
-        	System.out.println("\nThe opponent won!");
-        	results[2]++;
+        	return 2;
         }
-    	return results;
+    	return 3;
     }
     
     public Board[] getBoards() {
@@ -129,15 +127,15 @@ public class Battleground
         Board[] boards = battleground.getBoards();
         boards[0].displayBoard(); boards[1].displayBoard();
         
-        int[] results = battleground.playGame();
+        int result = battleground.playGame(true);
         
-        if (results[0] == 0) {
+        if (result == 0) {
         	System.out.println("It's a draw!");
         }
-        else if (results[0] == 1) {
+        else if (result == 1) {
         	System.out.println("\nYou won!");
         }
-        else if (results[0] == 2) {
+        else if (result == 2) {
         	System.out.println("\nThe opponent won!");
         }
     }
