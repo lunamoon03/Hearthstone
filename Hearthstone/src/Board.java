@@ -24,9 +24,14 @@ public class Board
      * @param cardsAmt amount of cards on the board
      */
     public void fillBoard(String boardName, int cardsAmt) {
-    	cards = new Card[cardsAmt];
+        final int DEF_MAX = 15;
+        int at, def;
+        at = (int) (MIN + Math.random() * DEF_MAX);
+        def = (int) (MIN + Math.random() * DEF_MAX);
+        
+        cards = new Card[cardsAmt];
         for (int i = 0; i < cardsAmt; i++) {
-            cards[i] = new Card(boardName + " Card " + Integer.toString(i + 1));
+            cards[i] = new Card((boardName + " Card " + Integer.toString(i + 1)), at, def);
         }
     }
     
@@ -34,29 +39,31 @@ public class Board
      * Prints out all the cards on the board
      */
     public void displayBoard() {
-    	for (Card card: cards) {
-    		System.out.printf("%s. Attack: %s. Defence: %s\n", card.getName(),
-    				card.getAttack(), card.getDefence());
-    	}
+        for (Card card: cards) {
+            System.out.printf("%s. Attack: %s. Defence: %s\n", card.getName(),
+                    card.getAttack(), card.getDefence());
+        }
     }
     
-    public void randomAttack(int idx, Board defenders) {
+    public void randomAttack(int idx, Board defenders, boolean showDialogue) {
         int random;
         do {
             random = (int) (Math.random() * defenders.getDeck().length);
         } while ((!defenders.getCard(random).isAlive())
-        	&& (defenders.checkDeck() != 0));
+            && (defenders.checkDeck() != 0));
         if (defenders.checkDeck() != 0) {
 	        defenders.getCard(random).getHit(cards[idx].getAttack());
 	        cards[idx].getHit(defenders.getCard(random).getAttack());
-	        System.out.printf("\n%s attacks %s!", cards[idx].getName(),
-	        		defenders.getCard(random).getName());
-	        if (defenders.getCard(random).getDefence() <= 0) {
-	            System.out.printf("\n%s is dead :(", defenders.getCard(random).getName());
-	        }
-	        if (cards[idx].getDefence() <= 0) {
-	            System.out.printf("\n%s is dead :(", cards[idx].getName());
-	        }
+	        if (showDialogue) {
+                    System.out.printf("\n%s attacks %s!", cards[idx].getName(),
+                    		defenders.getCard(random).getName());
+                    if (defenders.getCard(random).getDefence() <= 0) {
+                        System.out.printf("\n%s is dead :(", defenders.getCard(random).getName());
+                    }
+                    if (cards[idx].getDefence() <= 0) {
+                        System.out.printf("\n%s is dead :(", cards[idx].getName());
+                    }
+                }
         }
     }
     
