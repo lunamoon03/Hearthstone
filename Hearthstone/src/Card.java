@@ -13,8 +13,7 @@ public class Card
     /**
      * Constructor for objects of class Card
      */
-    public Card(String nm)
-    {
+    public Card(String nm, int attack, int defence) {
         name = nm;
         this.getStats();
     }
@@ -45,5 +44,10 @@ public class Card
             return false;
         }
         return true;
+    }
+    
+    public Card makeCopy() {
+        Card c = new Card(name, attack, defence);
+        return c;
     }
 }
