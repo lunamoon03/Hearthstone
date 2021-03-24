@@ -67,19 +67,6 @@ public class Board
         }
     }
     
-    public void randomAttackSim(Card attacker, Card[] defenders) {
-    	int random;
-    	do {
-    		random = (int) (Math.random() * defenders.length);
-    	} while ((!defenders[random].isAlive())
-    			&& (this.checkSpecificDeck(defenders) != 0));
-    	
-    	if (this.checkSpecificDeck(defenders) != 0) {
-    		defenders[random].getHit(attacker.getAttack());
-    		attacker.getHit(defenders[random].getAttack());
-    	}
-    } 
-    
     public int checkDeck() {
         int totalAlive = 0;
         
@@ -90,17 +77,6 @@ public class Board
         }
         
         return totalAlive;
-    }
-    
-    public int checkSpecificDeck(Card[] cards) {
-    	int totalAlive = 0;
-    	
-    	for (Card card: cards) {
-    		if (card.isAlive()) {
-    			totalAlive++;
-    		}
-    	}
-    	return totalAlive;
     }
     
     public Card[] getDeck() {

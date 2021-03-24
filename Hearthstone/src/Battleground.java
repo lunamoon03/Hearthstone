@@ -21,15 +21,10 @@ public class Battleground
     public Battleground() {
     }
     
-    /**
-     * Asks the user for how many cards are on each board
-     * 
-     * @return int[] cardAmts returns amt of cards {topboard, lowerBoard}
-     */
     public int[] askCardAmt() {
     	int[] cardAmts = new int[2];
     	// Get num for top board
-        while (askAgain) { // Repeat until they enter a number
+        while (askAgain) {
         	System.out.println("How many cards does the top board have? ");
         	if (input.hasNextInt()) {
         		intInput = input.nextInt();
@@ -59,8 +54,6 @@ public class Battleground
     
     /**
      * Fills the battleground with two Boards (top and bottom) full of Cards
-     * 
-     * @param int[] cardAmts amt of cards {topboard, lowerBoard}
      */
     public void fillBoards(int[] cardAmts) {
     	// Initialize top board
@@ -75,8 +68,6 @@ public class Battleground
     /**
      * Repeats the battle for a number of rounds
      * @param rounds how many times the game repeats
-     * 
-     * @return returns an int depending on the result
      */
     public int playGame(boolean showDialogue) {
 	do { // run game while both boards have cards on them
@@ -119,61 +110,6 @@ public class Battleground
     	return 3;
     }
     
-    /**
-     * 
-     */
-    public int[] playSimulation(Card[][] opponent, Card[][] player) {
-    	Board simBoard = new Board("test", 0);
-    	
-    	int[] results = new int[3];
-    	for (int i = 0; i < opponent.length; i++) {
-    		do { // run game while both boards have cards on them
-                first = (int) (Math.random());
-                
-                if (first == 0) { // top board goes first
-                	// cycle through, starting on 1. odds is first evens are second.
-                    for (int j = 0; j < opponent[i].length; j++) {
-                    	
-                    	// Check that the card is alive
-                        if (opponent[i][j].isAlive()) {
-                        	simBoard.randomAttackSim(opponent[i][j], player[i]);
-                        }
-                        if (player[i][j].isAlive()) {
-                        	simBoard.randomAttackSim(player[i][j], opponent[i]);
-                        }
-                    }
-                }
-                else if (first == 1) { // bottom board goes first
-                    for (int j = 0; j < topBoard.getLen(); j++) {
-                    	
-                    	// Check that the card is alive
-                    	if (player[i][j].isAlive()) {
-                    		simBoard.randomAttackSim(player[i][j], opponent[i]);
-                        }
-                        if (opponent[i][j].isAlive()) {
-                        	simBoard.randomAttackSim(opponent[i][j], player[i]);
-                        }
-                    }
-                }
-            } while ((simBoard.checkSpecificDeck(opponent[i]) > 0)
-            		&& (simBoard.checkSpecificDeck(player[i]) > 0));
-    		
-        	if (simBoard.checkSpecificDeck(opponent[i]) == 0
-        			&& (simBoard.checkSpecificDeck(player[i]) == 0)) {
-        		results[0]++;
-            }
-            else if (simBoard.checkSpecificDeck(opponent[i]) == 0) {
-            	results[1]++;
-            }
-            else if (simBoard.checkSpecificDeck(player[i]) == 0) {
-            	results[2]++;
-            }
-    	}
-    	
-    	
-    	return results;
-    }
-    
     public Board[] getBoards() {
     	return boards;
     }
@@ -183,24 +119,12 @@ public class Battleground
      */
     public static void main(String[] args) {
         Battleground battleground = new Battleground();
-        Buddy buddy = new Buddy();
-        Scanner in = new Scanner(System.in);
-        String stringInput = "a";
-        
         int[] cardAmts = battleground.askCardAmt();
         battleground.fillBoards(cardAmts);
         
         // Get and display the boards
         Board[] boards = battleground.getBoards();
         boards[0].displayBoard(); boards[1].displayBoard();
-        
-        buddy.simulateFixed(boards[0].getDeck(), boards[1].getDeck());
-        while (!stringInput.equals("")) {
-        	System.out.println("Press enter to continue");
-        	stringInput = in.nextLine();
-        }
-        in.close();
-        
         
         int result = battleground.playGame(true);
         
