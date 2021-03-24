@@ -21,10 +21,15 @@ public class Battleground
     public Battleground() {
     }
     
+    /**
+     * Asks the user for how many cards are on each board
+     * 
+     * @return int[] cardAmts returns amt of cards {topboard, lowerBoard}
+     */
     public int[] askCardAmt() {
     	int[] cardAmts = new int[2];
     	// Get num for top board
-        while (askAgain) {
+        while (askAgain) { // Repeat until they enter a number
         	System.out.println("How many cards does the top board have? ");
         	if (input.hasNextInt()) {
         		intInput = input.nextInt();
@@ -54,6 +59,8 @@ public class Battleground
     
     /**
      * Fills the battleground with two Boards (top and bottom) full of Cards
+     * 
+     * @param int[] cardAmts amt of cards {topboard, lowerBoard}
      */
     public void fillBoards(int[] cardAmts) {
     	// Initialize top board
@@ -68,6 +75,8 @@ public class Battleground
     /**
      * Repeats the battle for a number of rounds
      * @param rounds how many times the game repeats
+     * 
+     * @return returns an int depending on the result
      */
     public int playGame(boolean showDialogue) {
 	do { // run game while both boards have cards on them
@@ -110,6 +119,9 @@ public class Battleground
     	return 3;
     }
     
+    /**
+     * 
+     */
     public int[] playSimulation(Card[][] opponent, Card[][] player) {
     	Board simBoard = new Board("test", 0);
     	
