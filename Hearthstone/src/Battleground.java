@@ -57,11 +57,11 @@ public class Battleground
      */
     public void fillBoards(int[] cardAmts) {
     	// Initialize top board
-        topBoard = new Board("Top", cardAmts[0]);
+        topBoard = new Board("Top", cardAmts[0], true);
         boards[0] = topBoard;
         
         // Initialize lower board
-        lowerBoard = new Board("Lower", cardAmts[1]);
+        lowerBoard = new Board("Lower", cardAmts[1], true);
         boards[1] = lowerBoard;
     }
     
@@ -118,14 +118,33 @@ public class Battleground
      * Driver for basic game
      */
     public static void main(String[] args) {
+    	// Set up battleground obj
         Battleground battleground = new Battleground();
         int[] cardAmts = battleground.askCardAmt();
         battleground.fillBoards(cardAmts);
         
+        // Set up buddy obj
+        Buddy bob = new Buddy();
+        
+        // Set up scanner
+        Scanner in = new Scanner(System.in);
+        String stringIn;
+        
         // Get and display the boards
-        Board[] boards = battleground.getBoards();
+        Board[] boards = battleground.getBoards(); // [0] is top board, [1] is lower board
         boards[0].displayBoard(); boards[1].displayBoard();
         
+        // Simulate 10000 rounds of play with these boards
+        bob.simulateBoard(boards[0], boards[1]);
+        
+        // Get approval from player
+        do {
+        	System.out.println("Press enter to continue");
+        	stringIn = in.nextLine();
+        } while (!stringIn.equals(""));
+        in.close();
+        
+        // Get and print result of actual game
         int result = battleground.playGame(true);
         
         if (result == 0) {

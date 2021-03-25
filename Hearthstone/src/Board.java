@@ -14,8 +14,11 @@ public class Board
     /**
      * Constructor for objects of class Board
      */
-    public Board(String boardName, int cardAmt) {
-        this.fillBoard(boardName, cardAmt);
+    public Board(String boardName, int cardAmt, boolean randomCards) {
+    	cards = new Card[cardAmt];
+    	if (randomCards) {
+    		this.fillBoard(boardName, cardAmt);
+    	}
     }
     
     /**
@@ -29,7 +32,6 @@ public class Board
         at = (int) (MIN + Math.random() * DEF_MAX);
         def = (int) (MIN + Math.random() * DEF_MAX);
         
-        cards = new Card[cardsAmt];
         for (int i = 0; i < cardsAmt; i++) {
             cards[i] = new Card((boardName + " Card " + Integer.toString(i + 1)), at, def);
         }
@@ -77,6 +79,15 @@ public class Board
         }
         
         return totalAlive;
+    }
+    
+    public Board makeCopy() {
+    	Board b = new Board("Copy", cards.length, false);
+    	for (int i = 0; i < cards.length; i++) {
+    		b.getDeck()[i] = cards[i].makeCopy();
+    	}
+    	
+    	return b;
     }
     
     public Card[] getDeck() {
