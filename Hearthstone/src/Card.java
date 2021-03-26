@@ -6,18 +6,25 @@
  */
 public class Card
 {
-    private String name, property;
-    private int attack, defence;
-    
+    private String name;
+    private String property;
+    private int attack;
+    private int defence;
     /**
      * Constructor for objects of class Card
+     * 
+     * @param nm name of Card
+     * @param at attack value
+     * @param def defence value
+     * @param prpty property value
      */
     public Card(String nm, int at, int def, String prpty) {
         name = nm; property = prpty; attack = at; defence = def;
     }
     
     /**
-     * Get the defence value
+     * Get the defence value.
+
      * @return int defence
      */
     public int getDefence() {
@@ -45,7 +52,7 @@ public class Card
      * @return String property
      */
     public String getProperty() {
-    	return property;
+        return property;
     }
     
     /**
@@ -53,9 +60,9 @@ public class Card
      * @return boolean
      */
     public boolean hasCleave () {
-    	if (property.equals("cleave"))
-    		return true;
-    	return false;
+        if (property.equals("cleave"))
+            return true;
+        return false;
     }
     
     /**
@@ -63,9 +70,9 @@ public class Card
      * @return boolean
      */
     public boolean hasTaunt () {
-    	if (property.equals("taunt"))
-    		return true;
-    	return false;
+        if (property.equals("taunt"))
+            return true;
+        return false;
     }
     
     /**
@@ -73,14 +80,14 @@ public class Card
      * @return boolean
      */
     public boolean hasRattle() {
-    	if (property.equals("death rattle"))
-    		return true;
-    	return false;
+        if (property.equals("death rattle"))
+            return true;
+        return false;
     }
     
     /**
      * The card gets hit and reduces defence damage
-     * @param dmg
+     * @param dmg damage dealt to Card
      */
     public void getHit(int dmg) {
         defence -= dmg;
